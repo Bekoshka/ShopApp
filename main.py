@@ -6,7 +6,9 @@ from handler import test
 
 def main():
     global_init('data/db.sqlite')
+
     app.run()
+
 
 
 if __name__ == '__main__':

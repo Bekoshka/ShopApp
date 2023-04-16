@@ -1,22 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Product Shop</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-</head>
-
-<body>
+{% block content %}
 <h1>Домашняя страница</h1><input type="button" value="Корзина">
-<a href="http://127.0.0.1:5000/register">
-    <input type="button" value="Регистрация" style="float: right;">
-</a>
-<a href="http://127.0.0.1:5000/login">
-    <input type="button" value="Вход" style="float: right;">
-</a>
-<script src="assets/bootstrap/js/bootstrap.min.js"></script>
-</body>
 
-</html>
+{% endblock %}

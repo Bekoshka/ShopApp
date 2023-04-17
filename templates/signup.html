@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-danger" role="alert">
+    {{ messages[0] }}
+</div>
+{% endif %}
+{% endwith %}
+{% for field, errors in form.errors.items() %}
+<div class="alert alert-danger" role="alert">
+  {{ ', '.join(errors) }}
+</div>
+{% endfor %}
+
+<div class="column is-4 is-offset-4">
+    <h3 class="title">Регистрация</h3>
+    <div class="box">
+        <form method="POST" action="{{ url_for('auth.signup') }}">
+            {{ form.csrf_token() }}
+            <div class="field">
+                {{ form.login(class="input is-large", placeholder="Login", autofocus="") }}
+            </div>
+            <div class="field">
+                {{ form.password(class="input is-large", placeholder="Password", autofocus="") }}
+            </div>
+            <div class="field">
+                {{ form.password_confirm(class="input is-large", placeholder="Password", autofocus="") }}
+            </div>
+            {{ form.submit(class="button is-block is-info is-large is-fullwidth") }}
+        </form>
+    </div>
+</div>
+{% endblock %}

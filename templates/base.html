@@ -34,6 +34,12 @@
                     <a class="nav-link" href="{{ url_for('auth.logout') }}">Выйти</a>
                 </li>
                 {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('productcategory.get') }}">Категории</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('product.get') }}">Продукты</a>
+                </li>
             </ul>
         </div>
     </div>

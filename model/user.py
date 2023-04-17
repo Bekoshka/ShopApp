@@ -1,4 +1,4 @@
-from sqlalchemy import DECIMAL, INTEGER, TEXT, BOOLEAN, Column, ForeignKey
+from sqlalchemy import DECIMAL, INTEGER, TEXT, BOOLEAN, Column, ForeignKey, BLOB
 from sqlalchemy_serializer import SerializerMixin
 import db_session
 from db_session import SqlAlchemyBase
@@ -11,6 +11,7 @@ class User(SqlAlchemyBase, SerializerMixin, UserMixin):
     id = Column(INTEGER, primary_key=True, autoincrement=True)
     login = Column(TEXT, nullable=False)
     password = Column(TEXT, nullable=False)
+    is_admin = Column(BOOLEAN, default=False, nullable=False)
     fname = Column(TEXT, default='', nullable=False)
     lname = Column(TEXT, default='', nullable=False)
     sex = Column(BOOLEAN, default=True, nullable=False)
@@ -42,6 +43,7 @@ class Product(SqlAlchemyBase, SerializerMixin):
 
     id = Column(INTEGER, primary_key=True, autoincrement=True)
     product_category_id = Column(INTEGER, ForeignKey('product_categories.id'))
+    image = Column(BLOB, nullable=False)
     name = Column(TEXT, nullable=False)
     description = Column(TEXT, nullable=False)
     price = Column(DECIMAL, nullable=False)

@@ -1,7 +1,6 @@
 from core import app
 from db_session import global_init
 from handler import user
-from handler import test
 
 
 def main():

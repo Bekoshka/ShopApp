@@ -43,7 +43,7 @@ class Product(SqlAlchemyBase, SerializerMixin):
 
     id = Column(INTEGER, primary_key=True, autoincrement=True)
     product_category_id = Column(INTEGER, ForeignKey('product_categories.id'))
-    image = Column(BLOB, nullable=False)
+    image = Column(TEXT, nullable=False)
     name = Column(TEXT, nullable=False)
     description = Column(TEXT, nullable=False)
     price = Column(DECIMAL, nullable=False)

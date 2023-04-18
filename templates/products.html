@@ -1,29 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<div class="alert alert-danger" role="alert">
-    {{ messages[0] }}
-</div>
-{% endif %}
-{% endwith %}
-<div class="column is-4 is-offset-4">
-    <div class="box">
-            <h3 class="title">Продукты</h3>
-            <a class="nav-link" href="{{ url_for('product.add') }}">Новый продукт</a>
-    {% for product in products %}
-            <div class="field">
-                {{ Название }} {{ product.name }}
+{% for product in products %}
+<div class="card mb-3" style="max-width: 1100;">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="{{ url_for('main.download_file', name=product.image) }}" class="img-fluid rounded-start"
+                 alt="..." width="250" height="250">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <div>
+                    <h7 class="card-title">{{ product.price }}</h7>
+                </div>
+                <div>
+                    <h7 class="card-title">{{ product.quantity }}</h7>
+                </div>
+                <div>
+                    <h7 class="card-title">{{ product.description }}</h7>
+                </div>
             </div>
-            <div class="field">
-                {{ Описание }} {{ product.description }}
-            </div>
-            <form method="POST" action="{{ url_for('product.delete', id=product.id) }}">
-                <button type="submit" class="button is-block is-info is-large is-fullwidth">Удалить</button>
-            </form>
-
-       {% endfor %}
+        </div>
     </div>
 </div>
+{% endfor %}
 {% endblock %}

@@ -12,3 +12,12 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+# TODO
+# cart UI
+# add to cart
+# orders
+# order details
+# pass in hash
+# filter by category

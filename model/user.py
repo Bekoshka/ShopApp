@@ -71,7 +71,8 @@ class Order(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'orders'
 
     id = Column(INTEGER, primary_key=True, autoincrement=True)
-    user_id = product_id = Column(INTEGER, ForeignKey('users.id'))
+    user_id = Column(INTEGER, ForeignKey('users.id'))
+    product_id = Column(INTEGER, ForeignKey('users.id'))
     status = Column(INTEGER, nullable=False)
 
     @classmethod

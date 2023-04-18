@@ -5,4 +5,4 @@ blueprint = Blueprint('bin', __name__)
 
 @blueprint.route('/bin')
 def bin():
-    return render_template('index.html')
+    return render_template('bin.html')

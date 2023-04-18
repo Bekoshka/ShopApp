@@ -10,13 +10,13 @@
 {% endwith %}
 {% for field, errors in form.errors.items() %}
 <div class="alert alert-info" role="alert">
-  {{ ', '.join(errors) }}
+    {{ ', '.join(errors) }}
 </div>
 {% endfor %}
 <div class="column is-4 is-offset-4">
     <div class="box">
-        <form method="POST" action="{{ url_for('product.add') }}">
-            <h3 class="title">Новая категория</h3>
+        <form method="POST" action="{{ url_for('product.add') }}" enctype="multipart/form-data">
+            <h3 class="title">Новый товар</h3>
             {{ form.csrf_token() }}
             <div class="field">
                 {{ form.name.label }}
@@ -29,6 +29,35 @@
             </div>
             <div class="field">
                 {{ form.description(class="input is-large", placeholder='Описание', autofocus="") }}
+            </div>
+            <div class="field">
+                {{ form.image.label }}
+            </div>
+            <div class="field">
+                {{ form.image(class="input is-large", autofocus="") }}
+            </div>
+            <div class="field">
+                {{ form.product_category_id.label }}
+            </div>
+            <div class="field">
+                <select class="custom-select" id="product_category_id" name="product_category_id">
+                    {% for pc in global_product_categories %}
+                    <option value="{{ pc.id }}">{{ pc.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="field">
+                {{ form.price.label }}
+            </div>
+            <div class="field">
+                {{ form.price(class="input is-large", placeholder='Цена', autofocus="") }}
+            </div>
+
+            <div class="field">
+                {{ form.quantity.label }}
+            </div>
+            <div class="field">
+                {{ form.quantity(class="input is-large", placeholder='Количество', autofocus="") }}
             </div>
             {{ form.submit(class="button is-block is-info is-large is-fullwidth") }}
         </form>

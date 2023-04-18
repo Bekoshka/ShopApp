@@ -9,7 +9,7 @@ from wtforms.validators import DataRequired, EqualTo
 
 import db_session
 from config import UPLOAD_FOLDER
-from model.user import User, Product, ProductCategory
+from model.user import User, Product
 
 blueprint = Blueprint('product', __name__)
 
@@ -33,7 +33,7 @@ def add():
 
     if form.validate_on_submit():
         with db_session.create_session() as session:
-            print("GJHFJGJ", request.form.get('product_category_id'))
+            print(request.files)
             image = request.files['image']
             image_name = str(uuid.uuid4())
             product = Product(
@@ -55,11 +55,7 @@ def add():
 @blueprint.route('/', methods=['GET'])
 def get():
     with db_session.create_session() as session:
-        if request.args.get('category'):
-            category = request.args.get('category')
-            products = session.query(Product).filter(Product.product_category_id == category)
-        else:
-            products = session.query(Product)
+        products = session.query(Product)
         return render_template('products.html', products=products)
 
 

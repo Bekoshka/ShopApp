@@ -12,7 +12,7 @@
     <div class="box">
             <h3 class="title">Категории продуктов</h3>
             <a class="nav-link" href="{{ url_for('productcategory.add') }}">Новая категория</a>
-    {% for pc in pcs %}
+    {% for pc in global_product_categories %}
             <div class="field">
                 {{ Название }} {{ pc.name }}
             </div>

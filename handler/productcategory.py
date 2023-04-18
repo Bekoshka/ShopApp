@@ -37,9 +37,7 @@ def add():
 @blueprint.route('/productcategories', methods=['GET'])
 @login_required
 def get():
-    with db_session.create_session() as session:
-        pcs = session.query(ProductCategory)
-        return render_template('productcategories.html', pcs=pcs)
+    return render_template('productcategories.html')
 
 
 @blueprint.route('/productcategories_del/<int:id>', methods=['POST'])

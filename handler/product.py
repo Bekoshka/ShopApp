@@ -24,8 +24,6 @@ class PostProductForm(FlaskForm):
     submit = SubmitField('Добавить')
 
 
-
-
 @blueprint.route('/product_add', methods=['GET', 'POST'])
 @login_required
 def add():
@@ -33,7 +31,6 @@ def add():
 
     if form.validate_on_submit():
         with db_session.create_session() as session:
-            print("GJHFJGJ", request.form.get('product_category_id'))
             image = request.files['image']
             image_name = str(uuid.uuid4())
             product = Product(

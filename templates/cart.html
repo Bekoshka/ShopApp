@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% for cart_item in cart_items %}
+<div class="card mb-3" style="max-width: 1100;">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="{{ url_for('main.download_file', name=cart_item.product.image) }}" class="img-fluid rounded-start"
+                 alt="..." width="250" height="250">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">{{ cart_item.product.name }}</h5>
+                <div>
+                    <h7 class="card-title">{{ cart_item.product.price }}</h7>
+                </div>
+                <div>
+                    <h7 class="card-title">{{ cart_item.quantity }}</h7>
+                </div>
+                <div>
+                    <form method="POST" action="{{ url_for('cart.delete', id=cart_item.id) }}">
+                        <button type="submit" class="btn btn-primary">Удалить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<h5 class="card-title">Доставка</h5>
+<div>
+    <h7 class="card-title">Адрес</h7>
+    <h7 class="card-title">{{ current_user.address }}</h7>
+</div>
+<h5 class="card-title">Способ оплаты</h5>
+<div>
+    <h7 class="card-title">Наличными при получении</h7>
+</div>
+<div>
+     <form method="POST" action="{{ url_for('cart.submit') }}">
+            <button type="submit" class="btn btn-primary">Оформить</button>
+     </form>
+</div>
+{% endblock %}

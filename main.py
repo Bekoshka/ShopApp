@@ -14,9 +14,5 @@ if __name__ == '__main__':
 
 
 # TODO
-# cart UI
-# add to cart
-# orders
-# order details
+# order status
 # pass in hash
-# filter by category

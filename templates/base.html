@@ -15,6 +15,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
+                <img src="/static/RUNWIX2.png" alt="Bootstrap" width="30" height="24">
                 <li class="nav-item"><a class="dropdown-item" href="{{ url_for('product.get') }}">SHOP APP</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -60,7 +61,10 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('product.get') }}">Корзина</a>
+                    <a class="nav-link" href="{{ url_for('cart.get') }}">Корзина</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('order.get') }}">Покупки</a>
                 </li>
             </ul>
         </div>

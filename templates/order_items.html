@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h4 class="card-title">{{ order.status.name }}</h4>
+<div class="card mb-3 position-r-0" style="max-width: 1100;">
+    <div class="row g-0">
+        <div class="col-md-8">
+            <div class="card-body">
+                <div>
+                    <h5 class="card-title">{{ order.time }}</h5>
+                </div>
+                <div>
+                    <h7 class="card-title">Сумма: {{ '%0.2f'|format(order.sum) }} руб</h7>
+                </div>
+                <div>
+                    <h7 class="card-title">Статус: {{ order.status.name }}</h7>
+                </div>
+                <h5 class="card-title">Доставка</h5>
+<div>
+    <h7 class="card-title">Адрес</h7>
+    <h7 class="card-title">{{ current_user.address }}</h7>
+</div>
+<h5 class="card-title">Способ оплаты</h5>
+<div>
+    <h7 class="card-title">Наличными при получении</h7>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% for order_item in order_items %}
+<div class="card mb-3" style="max-width: 1100;">
+      <div class="row g-0">
+        <div class="col-md-4">
+            <img src="{{ url_for('main.download_file', name=order_item.product.image) }}" class="img-fluid rounded-start"
+                 alt="..." width="100" height="100">
+        </div>
+        <div class="col-md-8">
+
+          <div class="card-body">
+              <h7 class="card-title">{{ order_item.product.name }}</h7>
+              <h7 class="card-title">{{ order_item.quantity }} шт x
+              {{ '%0.2f'|format(order_item.product.price) }} руб = {{ '%0.2f'|format(order_item.sum) }} руб</h7>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endfor %}
+{% endblock %}

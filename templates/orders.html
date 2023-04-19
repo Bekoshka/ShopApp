@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3>История покупок: </h3>
+{% for order in orders %}
+<div class="card mb-3" style="max-width: 1100;">
+    <div class="row g-0">
+        <div class="col-md-8">
+            <div class="card-body">
+                <div>
+                    <h5 class="card-title">{{ order.time }}</h5>
+                </div>
+                <div>
+                    <h7 class="card-title">Сумма: {{ '%0.2f'|format(order.sum) }} руб</h7>
+                </div>
+                <div>
+                    <h7 class="card-title">Статус: {{ order.status.name }}</h7>
+                </div>
+                <a href="{{ url_for('order.details', id=order.id) }}" class="btn btn-primary">Подробнее</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+{% endblock %}

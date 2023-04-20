@@ -15,8 +15,20 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ url_for('main.index') }}">Главная</a>
+                <img src="/static/RUNWIX2.png" alt="Bootstrap" width="30" height="24">
+                <li class="nav-item"><a class="dropdown-item" href="{{ url_for('product.get') }}">SHOP APP</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Категории
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li selected><a class="dropdown-item" href="{{ url_for('product.get') }}">Все</a></li>
+                        {% for pc in global_product_categories %}
+                        <li><a class="dropdown-item" href="{{ url_for('product.get', category=pc.id) }}">{{ pc.name
+                            }}</a></li>
+                        {% endfor %}
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('main.profile') }}">Профиль</a>
@@ -34,6 +46,26 @@
                     <a class="nav-link" href="{{ url_for('auth.logout') }}">Выйти</a>
                 </li>
                 {% endif %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Админ
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('productcategory.get') }}">Категории</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('product.get_admin') }}">Продукты</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('cart.get') }}">Корзина</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('order.get') }}">Покупки</a>
+                </li>
             </ul>
         </div>
     </div>

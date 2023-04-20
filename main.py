@@ -11,3 +11,8 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+# TODO
+# order status
+# pass in hash

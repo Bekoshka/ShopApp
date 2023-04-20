@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-danger" role="alert">
+    {{ messages[0] }}
+</div>
+{% endif %}
+{% endwith %}
+<div class="column is-4 is-offset-4">
+    <div class="box">
+            <h3 class="title">Категории продуктов</h3>
+            <a class="nav-link" href="{{ url_for('productcategory.add') }}">Новая категория</a>
+    {% for pc in global_product_categories %}
+            <div class="field">
+                {{ Название }} {{ pc.name }}
+            </div>
+            <div class="field">
+                {{ Описание }} {{ pc.description }}
+            </div>
+            <form method="POST" action="{{ url_for('productcategory.delete', id=pc.id) }}">
+                <button type="submit" class="button is-block is-info is-large is-fullwidth">Удалить</button>
+            </form>
+
+       {% endfor %}
+    </div>
+</div>
+{% endblock %}

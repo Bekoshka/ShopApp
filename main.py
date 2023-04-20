@@ -1,6 +1,5 @@
 from core import app
 from db_session import global_init
-from handler import user
 
 
 def main():
@@ -9,11 +8,12 @@ def main():
     app.run()
 
 
-
 if __name__ == '__main__':
     main()
 
 
 # TODO
-# order status
 # pass in hash
+# reduce remainder
+# add error info to all pages
+# status in rus

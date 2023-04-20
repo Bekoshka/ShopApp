@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from flask_login import login_required, logout_user, login_user
+from flask_login import login_required, logout_user, login_user, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, EqualTo, ValidationError, StopValidation
@@ -27,6 +27,34 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Войти')
 
 
+class ChangePasswordForm(FlaskForm):
+    old_password = PasswordField('Станый пароль', validators=[DataRequired()])
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    password_confirm = PasswordField('Повторите пароль',
+                                     validators=[DataRequired(),
+                                                 EqualTo('password',
+                                                         message="Пароль должен совпадать")])
+    submit = SubmitField('Изменить')
+
+
+@blueprint.route('/password', methods=['GET', 'POST'])
+@login_required
+def password():
+    form = ChangePasswordForm()
+
+    if form.validate_on_submit():
+        with db_session.create_session() as db:
+            user = db.query(User).filter_by(login=current_user.login).first()
+            if not request.form.get('password') or not user or user.password != request.form.get('old_password'):
+                flash(f"Проверьте правильность пароля")
+            else:
+                user.password = request.form.get('password')
+                db.add(user)
+                db.commit()
+    with db_session.create_session() as session:
+        user = session.query(User).filter_by(login=current_user.login).first()
+    return render_template('change_password.html', user=user, form=form)
+
 
 @blueprint.route('/login', methods=['GET', 'POST'])
 def login():
@@ -42,7 +70,7 @@ def login():
                 return render_template('login.html', form=form)
 
             login_user(user, remember=remember)
-        return redirect(url_for('main.profile'))
+        return redirect(url_for('profile.profile'))
 
     return render_template('login.html', form=form)
 

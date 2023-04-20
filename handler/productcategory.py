@@ -1,11 +1,13 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from flask_wtf import FlaskForm
+from sqlalchemy.exc import IntegrityError
 from wtforms import StringField, PasswordField, SubmitField, EmailField, BooleanField, TextAreaField, FileField
 from wtforms.validators import DataRequired, EqualTo
 
 import db_session
-from model.user import ProductCategory
+from admin import admin_required
+from model.productcategory import ProductCategory
 
 blueprint = Blueprint('productcategory', __name__)
 
@@ -18,6 +20,7 @@ class PostProductCategoryForm(FlaskForm):
 
 @blueprint.route('/productcategory_add', methods=['GET', 'POST'])
 @login_required
+@admin_required
 def add():
     form = PostProductCategoryForm()
 
@@ -36,14 +39,20 @@ def add():
 
 @blueprint.route('/productcategories', methods=['GET'])
 @login_required
+@admin_required
 def get():
     return render_template('productcategories.html')
 
 
 @blueprint.route('/productcategories_del/<int:id>', methods=['POST'])
 @login_required
+@admin_required
 def delete(id):
-    with db_session.create_session() as session:
-        session.query(ProductCategory).filter(ProductCategory.id == id).delete()
-        session.commit()
-        return redirect(url_for('productcategory.get'))
+    try:
+        with db_session.create_session() as session:
+            session.query(ProductCategory).filter(ProductCategory.id == id).delete()
+            session.commit()
+    except IntegrityError:
+        flash("Невозможно удалить категорию, если есть товары данной категории!")
+
+    return redirect(url_for('productcategory.get'))

@@ -12,10 +12,10 @@
             <div class="card-body">
                 <h5 class="card-title">{{ product.name }}</h5>
                 <div>
-                    <h7 class="card-title">{{ product.price }}</h7>
+                    <h7 class="card-title">{{ '%0.2f'|format(product.price) }} руб</h7>
                 </div>
                 <div>
-                    <h7 class="card-title">{{ product.quantity }}</h7>
+                    <h7 class="card-title">{{ product.quantity }} шт в наличии</h7>
                 </div>
                 <div>
                     <h7 class="card-title">{{ product.description }}</h7>

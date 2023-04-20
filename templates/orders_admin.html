@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3>Заказы: </h3>
+{% for order in orders %}
+<div class="card mb-3" style="max-width: 1100;">
+    <div class="row g-0">
+        <div class="col-md-8">
+            <div class="card-body">
+                <div>
+                    <h5 class="card-title">Заказ № {{ order.id }} от {{ order.time }}</h5>
+                </div>
+                <div>
+                    <h7 class="card-title"><b>Сумма</b>: {{ '%0.2f'|format(order.sum) }} руб</h7>
+                </div>
+                <form method="POST" action="{{ url_for('order.status') }}">
+                    {{ form.csrf_token() }}
+                    {{ form.order_id(class="input is-large", value=order.id) }}
+                    <select class="custom-select" id="status" name="status">
+                        <option value="1"
+                                {% if order.status.value == 1 %}
+                                selected
+                                {% endif%}
+                        >Новый</option>
+                        <option value="2"
+                                {% if order.status.value == 2 %}
+                                selected
+                                {% endif%}
+                        >Собирается</option>
+                        <option value="3"
+                                {% if order.status.value == 3 %}
+                                selected
+                                {% endif%}
+                        >В пути</option>
+                        <option value="4"
+                                {% if order.status.value == 4 %}
+                                selected
+                                {% endif%}
+                        >Выполнен</option>
+                        <option value="5"
+                                {% if order.status.value == 5 %}
+                                selected
+                                {% endif%}
+                        >Отменен</option>
+                    </select>
+                    {{ form.submit(class="button is-block is-info is-large is-fullwidth") }}
+                </form>
+                <a href="{{ url_for('order.details', id=order.id) }}" class="btn btn-primary">Подробнее</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+{% endblock %}

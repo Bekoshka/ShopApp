@@ -1,15 +1,19 @@
 import os
 import uuid
+from functools import wraps
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash
-from flask_login import login_required, current_user
+from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
+from flask_login import current_user, login_required
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, EmailField, BooleanField, TextAreaField, FileField
-from wtforms.validators import DataRequired, EqualTo
+from sqlalchemy.exc import IntegrityError
+from wtforms import StringField, SubmitField, FileField
+from wtforms.validators import DataRequired
 
 import db_session
 from config import UPLOAD_FOLDER
-from model.user import User, Product, ProductCategory
+
+from model.product import Product
+from admin import admin_required
 
 blueprint = Blueprint('product', __name__)
 
@@ -26,6 +30,7 @@ class PostProductForm(FlaskForm):
 
 @blueprint.route('/product_add', methods=['GET', 'POST'])
 @login_required
+@admin_required
 def add():
     form = PostProductForm()
 
@@ -62,6 +67,7 @@ def get():
 
 @blueprint.route('/products_admin', methods=['GET'])
 @login_required
+@admin_required
 def get_admin():
     with db_session.create_session() as session:
         products = session.query(Product)
@@ -70,8 +76,12 @@ def get_admin():
 
 @blueprint.route('/products_del/<int:id>', methods=['POST'])
 @login_required
+@admin_required
 def delete(id):
-    with db_session.create_session() as session:
-        session.query(Product).filter(Product.id == id).delete()
-        session.commit()
-        return redirect(url_for('product.get'))
+    try:
+        with db_session.create_session() as session:
+            session.query(Product).filter(Product.id == id).delete()
+            session.commit()
+    except IntegrityError:
+        flash("Невозможно удалить товар, если уже были покупки!")
+    return redirect(url_for('product.get_admin'))

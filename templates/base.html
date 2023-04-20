@@ -7,22 +7,21 @@
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav  me-auto mb-2 mb-lg-0" >
                 <img src="/static/RUNWIX2.png" alt="Bootstrap" width="30" height="24">
-                <li class="nav-item"><a class="dropdown-item" href="{{ url_for('product.get') }}">SHOP APP</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                        aria-expanded="false">
                         Категории
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu dropdown-menu-dark">
                         <li selected><a class="dropdown-item" href="{{ url_for('product.get') }}">Все</a></li>
                         {% for pc in global_product_categories %}
                         <li><a class="dropdown-item" href="{{ url_for('product.get', category=pc.id) }}">{{ pc.name
@@ -30,9 +29,25 @@
                         {% endfor %}
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('main.profile') }}">Профиль</a>
+                {% if current_user.is_admin%}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Админ
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('productcategory.get') }}">Категории</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('product.get_admin') }}">Продукты</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('order.get_admin') }}">Заказы</a>
+                        </li>
+                    </ul>
                 </li>
+                {% endif %}
                 {% if current_user.login | length == 0 %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('auth.login') }}">Войти</a>
@@ -42,30 +57,19 @@
                 </li>
                 {% endif %}
                 {% if current_user.login | length > 0 %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('auth.logout') }}">Выйти</a>
-                </li>
-                {% endif %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        Админ
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('productcategory.get') }}">Категории</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('product.get_admin') }}">Продукты</a>
-                        </li>
-                    </ul>
+                <li class="nav-item d-flex">
+                    <a class="nav-link" href="{{ url_for('order.get') }}">Покупки</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('cart.get') }}">Корзина</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('order.get') }}">Покупки</a>
+                    <a class="nav-link" href="{{ url_for('profile.profile') }}">Профиль</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('auth.logout') }}">Выйти</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </div>

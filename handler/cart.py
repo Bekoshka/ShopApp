@@ -1,15 +1,13 @@
-import os
-import uuid
-
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, EmailField, BooleanField, TextAreaField, FileField, \
-    HiddenField
-from wtforms.validators import DataRequired, EqualTo
+from wtforms import StringField, SubmitField, HiddenField
+from wtforms.validators import DataRequired
 
 import db_session
-from model.user import Product, CartItem, Order, OrderItem, OrderStatus
+from model.cartitem import CartItem
+from model.order import OrderStatus, Order
+from model.orderitem import OrderItem
 
 blueprint = Blueprint('cart', __name__)
 
@@ -66,6 +64,8 @@ def delete(id):
 def submit():
     with db_session.create_session() as session:
         cart_items = session.query(CartItem).filter(CartItem.user_id == current_user.id).with_for_update().all()
+        if not cart_items:
+            return redirect(url_for('cart.get'))
         sum = 0
         order = Order(
             user_id=current_user.id,

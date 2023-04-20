@@ -9,13 +9,13 @@
 {% endif %}
 {% endwith %}
 {% for field, errors in form.errors.items() %}
-<div class="alert alert-info" role="alert">
+<div class="alert alert-danger" role="alert">
   {{ ', '.join(errors) }}
 </div>
 {% endfor %}
 <div class="column is-4 is-offset-4">
     <div class="box">
-        <form method="POST" action="{{ url_for('main.profile') }}">
+        <form method="POST" action="{{ url_for('profile.profile') }}">
             <h3 class="title">Личные данные</h3>
             {{ form.csrf_token() }}
             <div class="field">
@@ -70,7 +70,7 @@
             Логин: {{ user.login }}
         </div>
         <div class="field">
-            <a class="nav-link" href="{{ url_for('main.password') }}">Изменить пароль</a>
+            <a class="nav-link" href="{{ url_for('auth.password') }}">Изменить пароль</a>
         </div>
 
     </div>

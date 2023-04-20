@@ -9,7 +9,7 @@
 {% endif %}
 {% endwith %}
 {% for field, errors in form.errors.items() %}
-<div class="alert alert-info" role="alert">
+<div class="alert alert-danger" role="alert">
   {{ ', '.join(errors) }}
 </div>
 {% endfor %}

@@ -1,8 +1,10 @@
+import hashlib
+
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, logout_user, login_user, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms.validators import DataRequired, EqualTo, ValidationError, StopValidation
+from wtforms.validators import DataRequired, EqualTo
 
 import db_session
 from model.user import User
@@ -45,10 +47,11 @@ def password():
     if form.validate_on_submit():
         with db_session.create_session() as db:
             user = db.query(User).filter_by(login=current_user.login).first()
-            if not request.form.get('password') or not user or user.password != request.form.get('old_password'):
+            if not request.form.get('password') or not user or user.password != hash_password(
+                    request.form.get('old_password')):
                 flash(f"Проверьте правильность пароля")
             else:
-                user.password = request.form.get('password')
+                user.password = hash_password(request.form.get('password'))
                 db.add(user)
                 db.commit()
     with db_session.create_session() as session:
@@ -65,7 +68,7 @@ def login():
         remember = True if request.form.get('remember') else False
         with db_session.create_session() as session:
             user = session.query(User).filter_by(login=login).first()
-            if not user or user.password != password:
+            if not user or user.password != hash_password(password):
                 flash(f"Проверьте правильность логина и пароля")
                 return render_template('login.html', form=form)
 
@@ -80,7 +83,7 @@ def signup():
     form = SignUpForm()
     if form.validate_on_submit():
         login = request.form.get('login')
-        password = request.form.get('password')
+        password = hash_password(request.form.get('password'))
         with db_session.create_session() as session:
             user = session.query(User).filter_by(login=login).first()
             if user:
@@ -99,3 +102,16 @@ def signup():
 def logout():
     logout_user()
     return redirect(url_for('product.get'))
+
+
+def hash_password(password):
+    return hashlib.sha1(password.encode('utf-8')).hexdigest()
+
+
+def init_admin():
+    with db_session.create_session() as session:
+        try:
+            session.add(User(login="admin", password=hash_password("admin"), is_admin=1))
+            session.commit()
+        except:
+            pass

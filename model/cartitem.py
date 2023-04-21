@@ -13,4 +13,4 @@ class CartItem(SqlAlchemyBase, SerializerMixin):
     product_id = Column(INTEGER, ForeignKey('products.id'))
     quantity = Column(INTEGER, nullable=False)
     product = relationship("Product")
-    __table_args__ = (UniqueConstraint('user_id', 'product_id'), )
+    __table_args__ = (UniqueConstraint('user_id', 'product_id'),)

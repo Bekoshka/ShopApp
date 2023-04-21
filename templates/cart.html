@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-danger" role="alert">
+    {{ messages[0] }}
+</div>
+{% endif %}
+{% endwith %}
 {% for cart_item in cart_items %}
 <div class="card mb-3" style="max-width: 1100;">
     <div class="row g-0">

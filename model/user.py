@@ -1,4 +1,4 @@
-from sqlalchemy import INTEGER, TEXT, BOOLEAN, Column
+from sqlalchemy import INTEGER, TEXT, BOOLEAN, Column, UniqueConstraint
 from sqlalchemy_serializer import SerializerMixin
 from db_session import SqlAlchemyBase
 from flask_login import UserMixin
@@ -17,3 +17,4 @@ class User(SqlAlchemyBase, SerializerMixin, UserMixin):
     phone = Column(TEXT, default='', nullable=False)
     email = Column(TEXT, default='', nullable=False)
     address = Column(TEXT, default='', nullable=False)
+    __table_args__ = (UniqueConstraint('login'),)

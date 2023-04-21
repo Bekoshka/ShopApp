@@ -14,7 +14,7 @@
                     <h7 class="card-title"><b>Сумма</b>: {{ '%0.2f'|format(order.sum) }} руб</h7>
                 </div>
                 <div>
-                    <h7 class="card-title"><b>Статус</b>: {{ order.status.name }}</h7>
+                    <h7 class="card-title"><b>Статус</b>: {{ order.status.label }}</h7>
                 </div>
                 <a href="{{ url_for('order.details', id=order.id) }}" class="btn btn-primary">Подробнее</a>
             </div>

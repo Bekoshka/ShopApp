@@ -1,9 +1,8 @@
 import os
 import uuid
-from functools import wraps
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
-from flask_login import current_user, login_required
+from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask_login import login_required
 from flask_wtf import FlaskForm
 from sqlalchemy.exc import IntegrityError
 from wtforms import StringField, SubmitField, FileField

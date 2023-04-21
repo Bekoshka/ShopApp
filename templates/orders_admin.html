@@ -43,7 +43,7 @@
                                 {% endif%}
                         >Отменен</option>
                     </select>
-                    {{ form.submit(class="button is-block is-info is-large is-fullwidth") }}
+                    {{ form.submit(class="btn btn-primary") }}
                 </form>
                 <a href="{{ url_for('order.details', id=order.id) }}" class="btn btn-primary">Подробнее</a>
             </div>

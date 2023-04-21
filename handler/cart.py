@@ -8,6 +8,7 @@ import db_session
 from model.cartitem import CartItem
 from model.order import OrderStatus, Order
 from model.orderitem import OrderItem
+from model.product import Product
 
 blueprint = Blueprint('cart', __name__)
 
@@ -70,6 +71,8 @@ def submit():
         order = Order(
             user_id=current_user.id,
             address=current_user.address,
+            phone=current_user.phone,
+            email=current_user.email,
             status=OrderStatus.new,
             sum=0
         )
@@ -77,7 +80,14 @@ def submit():
         session.flush()
         session.refresh(order)
         for ci in cart_items:
-            oi_sum = ci.quantity * ci.product.price
+            product = session.query(Product).filter(Product.id == ci.product_id).with_for_update().one()
+            if product.quantity - ci.quantity < 0:
+                flash("Не достаточно товара в наличии: " + product.name)
+                session.rollback()
+                cart_items = session.query(CartItem).filter(CartItem.user_id == current_user.id)
+                return render_template('cart.html', cart_items=cart_items)
+            product.quantity -= ci.quantity
+            oi_sum = ci.quantity * product.price
             sum += oi_sum
             order_item = OrderItem(
                 order_id=order.id,
@@ -85,6 +95,7 @@ def submit():
                 quantity=ci.quantity,
                 sum=oi_sum
             )
+            session.add(product)
             session.add(order_item)
             session.delete(ci)
         order.sum = sum

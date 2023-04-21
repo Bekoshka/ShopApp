@@ -20,7 +20,7 @@
                 {{ Описание }} {{ pc.description }}
             </div>
             <form method="POST" action="{{ url_for('productcategory.delete', id=pc.id) }}">
-                <button type="submit" class="button is-block is-info is-large is-fullwidth">Удалить</button>
+                <button type="submit" class="btn btn-primary">Удалить</button>
             </form>
 
        {% endfor %}

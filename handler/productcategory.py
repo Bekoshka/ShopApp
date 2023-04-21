@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from flask_login import login_required, current_user
+from flask_login import login_required
 from flask_wtf import FlaskForm
 from sqlalchemy.exc import IntegrityError
-from wtforms import StringField, PasswordField, SubmitField, EmailField, BooleanField, TextAreaField, FileField
-from wtforms.validators import DataRequired, EqualTo
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
 
 import db_session
 from admin import admin_required
